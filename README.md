@@ -1,4 +1,4 @@
-# Project Title
+# Inventory Management System
 
 A website for Inventory mangement - using Django, SQLite3
 ## Installation
