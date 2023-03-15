@@ -1,4 +1,6 @@
+# Project Title
 
+A website for Inventory mangement - using Django, SQLite3
 ## Installation
 
 To installation this project run
