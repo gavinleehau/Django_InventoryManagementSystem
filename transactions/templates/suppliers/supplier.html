@@ -4,26 +4,23 @@
 {% block title %}
   {{ supplier.name }}'s profile
 {% endblock %}
-
-
 {% block content %}
-
     <div class="content-section">
-        <div class="media"><!-- Log on to freeprojectscodes.com for more projects -->
+        <div class="media">
             <div class="media-body">
                 <h2 style="color:#575757;" class="account-heading">&nbsp;{{ supplier.name }}</h2>
-                <a href="{% url 'edit-supplier' supplier.pk %}" class="btn btn-info" style="float: right;">Edit Details</a>
+                <a href="{% url 'edit-supplier' supplier.pk %}" class="btn btn-info" style="float: right;">Sửa</a>
                 <div class="row">
                     <div class="col-md-6">
                         <p class="fal">
-                            <b>Contact &nbsp; &nbsp;&nbsp; :</b> {{ supplier.phone }} <br>
-                            <b>Email Id &nbsp;&nbsp;&nbsp;&nbsp; :</b> {{ supplier.email }} <br>
-                            <b>GSTIN No &nbsp; :</b> {{ supplier.gstin }} <br>
+                            <b>Liên lạc   &nbsp; &nbsp;&nbsp; :</b> {{ supplier.phone }} <br>
+                            <b>Email &nbsp;&nbsp;&nbsp;&nbsp; :</b> {{ supplier.email }} <br>
+                            <b>Mã số thuế &nbsp;              :</b> {{ supplier.gstin }} <br>
                         </p>
                     </div>
                     <div class="col-md-6">
                         <p class="fal">
-                            <b>Address:</b> <br> {{ supplier.address|linebreaks }}
+                            <b>Địa chỉ:</b> <br> {{ supplier.address|linebreaks }}
                         </p>
                     </div>
                 </div>
@@ -37,25 +34,25 @@
         
         <thead class="thead-dark align-middle">
             <tr>
-                <th width="10%">Bill No.</th>
-                <th width="15%">Stocks</th>
-                <th width="15%">Quantity</th>
-                <th width="15%">Total Purchased Price</th>
-                <th width="15%">Purchased Date</th>
-                <th width="30%">Actions</th>
-            </tr><!-- Log on to freeprojectscodes.com for more projects -->
+                <th width="10%">Số tt</th>
+                <th width="15%">Tên SP</th>
+                <th width="15%">Số lượng</th>
+                <th width="15%">Tổng tiền</th>
+                <th width="15%">Ngày mua</th>
+                <th width="30%"></th>
+            </tr>
         </thead>
       
         <tbody>
             {% for purchase in bills %}
-            <tr>
-                <td class="align-middle"> <p>{{ purchase.billno }}</p> </td>
-                <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.name }} <br> {% endfor %}</td>
-                <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.quantity }} <br> {% endfor %}</td>     
-                <td class="align-middle">${{ purchase.get_total_price }}</td>
-                <td class="align-middle">{{ purchase.time.date }}</td>
-                <td class="align-middle"> <a href="{% url 'purchase-bill' purchase.billno %}" class="btn btn-secondary">View Bill</a> <a href="{% url 'delete-purchase' purchase.pk %}" class="btn btn-danger">Delete Bill</a> </td>
-            </tr><!-- Log on to freeprojectscodes.com for more projects -->
+                <tr>
+                    <td class="align-middle"> <p>{{ purchase.billno }}</p> </td>
+                    <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.stock.name }} <br> {% endfor %}</td>
+                    <td class="align-middle">{% for item in purchase.get_items_list %} {{ item.quantity }} <br> {% endfor %}</td>     
+                    <td class="align-middle">${{ purchase.get_total_price }}</td>
+                    <td class="align-middle">{{ purchase.time.date }}</td>
+                    <td class="align-middle"> <a href="{% url 'purchase-bill' purchase.billno %}" class="btn btn-secondary">Chi tiết</a> <a href="{% url 'delete-purchase' purchase.pk %}" class="btn btn-danger">Xóa</a> </td>
+                </tr>
             {% endfor %}
         </tbody>
 
@@ -83,7 +80,7 @@
             {% endif %}
 
         {% endif %}
-    </div><!-- Log on to freeprojectscodes.com for more projects -->
+    </div>
 
 </div>
 

@@ -24,7 +24,7 @@ class StockCreateView(SuccessMessageMixin, CreateView):                         
     form_class = StockForm                                                              # setting 'StockForm' form as form
     template_name = "edit_stock.html"                                                   # 'edit_stock.html' used as the template
     success_url = '/inventory'                                                          # redirects to 'inventory' page in the url after submitting the form
-    success_message = "Stock has been created successfully"                             # displays message when form is submitted
+    success_message = "Thêm đơn hàng mới thành công"                                    # displays message when form is submitted
 
     def get_context_data(self, **kwargs):                                               # used to send additional context
         context = super().get_context_data(**kwargs)
