@@ -4,9 +4,15 @@ from django.views.generic import ( View,  ListView, CreateView, UpdateView, Dele
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import ( PurchaseBill,  Supplier,  PurchaseItem, PurchaseBillDetails, SaleBill,   SaleItem, SaleBillDetails
+from .models import ( PurchaseBill,  Supplier,  PurchaseItem, PurchaseBillDetails, SaleBill,   SaleItem, SaleBillDetails, staff
 )
-from .forms import ( SelectSupplierForm,  PurchaseItemFormset, PurchaseDetailsForm,  SupplierForm,  SaleForm, SaleItemFormset, SaleDetailsForm
+from .forms import ( SelectSupplierForm,  
+                    PurchaseItemFormset, 
+                    PurchaseDetailsForm,  
+                    SupplierForm,  SaleForm, 
+                    SaleItemFormset, 
+                    SaleDetailsForm, 
+                    StaffForm,
 )
 from inventory.models import Stock
 
@@ -20,7 +26,6 @@ class SupplierListView(ListView):
     queryset = Supplier.objects.filter(is_deleted=False)
     paginate_by = 10
 
-
 # used to add a new supplier
 class SupplierCreateView(SuccessMessageMixin, CreateView):
     model = Supplier
@@ -33,8 +38,8 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Thêm nhà cung cấp'
         context["savebtn"] = 'Thêm'
+        print('sai')
         return context     
-
 
 # used to update a supplier's info
 class SupplierUpdateView(SuccessMessageMixin, UpdateView):
@@ -46,11 +51,10 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = 'Edit Supplier'
-        context["savebtn"] = 'Save Changes'
-        context["delbtn"] = 'Delete Supplier'
+        context["title"] = 'Sửa'
+        context["savebtn"] = 'Lưu thay đổi'
+        context["delbtn"] = 'Xóa'
         return context
-
 
 # used to delete a supplier
 class SupplierDeleteView(View):
@@ -67,7 +71,6 @@ class SupplierDeleteView(View):
         supplier.save()                                               
         messages.success(request, self.success_message)
         return redirect('suppliers-list')
-
 
 # used to view a supplier's profile
 class SupplierView(View):
@@ -125,7 +128,6 @@ class SelectSupplierView(View):
             context= {
                 'form': form
             })
-
 
 # used to generate a bill object and save items
 class PurchaseCreateView(View):                                                 
@@ -193,6 +195,7 @@ class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
 
 
 
+
 # shows the list of bills of all sales 
 class SaleView(ListView):
     model = SaleBill
@@ -200,7 +203,6 @@ class SaleView(ListView):
     context_object_name = 'bills'
     ordering = ['-time']
     paginate_by = 10
-
 
 # used to generate a bill object and save items
 class SaleCreateView(View):                                                      
@@ -249,7 +251,6 @@ class SaleCreateView(View):
             'formset'   : formset,
         }
         return render(request, self.template_name, context)
-
 
 # used to delete a bill object
 class SaleDeleteView(SuccessMessageMixin, DeleteView):
@@ -353,3 +354,54 @@ class SaleBillView(View):
             'bill_base'     : self.bill_base,
         }
         return render(request, self.template_name, context)
+    
+
+
+
+
+# shows a lists of all Staff
+class StaffListView(ListView):
+    model = staff
+    template_name = "staff/staffs_list.html"
+    queryset = staff.objects.all()
+    paginate_by = 10
+
+# used to add a new Staff
+class StaffCreateView(SuccessMessageMixin, CreateView):
+    model = staff
+    form_class = StaffForm
+    success_url = '/transactions/staffs'
+    success_message = "Staff has been created successfully"
+    template_name = "staff/edit_staff.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Thêm nhân viên'
+        context["savebtn"] = 'Thêm'
+        return context     
+
+# used to update a Staff's info
+class StaffUpdateView(SuccessMessageMixin, UpdateView):
+    model = staff
+    form_class = StaffForm
+    success_url = '/transactions/staffs'
+    success_message = "Staff details has been updated successfully"
+    template_name = "staff/edit_staff.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'sửa'
+        context["savebtn"] = 'Lưu'
+        context["delbtn"] = 'Xóa'
+        return context
+
+    
+def delete_record(request, pk):
+    my_object = get_object_or_404(staff, pk=pk)
+    
+    if request.method == 'POST':
+        my_object.delete()
+        return redirect('staffs-list')
+
+    # Render the delete confirmation page
+    return render(request, "staff/delete_staff.html", {'object' : my_object})

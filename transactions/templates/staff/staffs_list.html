@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+
+{% block title %} Suppliers List {% endblock title %}
+
+
+{% block content %}
+    
+    <div class="row" style="color: #575757; font-style: bold; font-size: 3rem;">
+        <div class="col-md-8">Danh sách nhân viên</div>
+        <div class="col-md-4">               
+            <div style="float:right;"> <a class="btn btn-success" href="{% url 'new-staff' %}">Thêm mới</a> </div>
+        </div>
+    </div>
+
+    <br>
+
+    <table class="table table-css table-hover table-bordered">
+        
+        <thead class="thead-dark align-middle">
+            <tr>
+                <th width="15%">Tên nhân viên</th>
+                <th width="13%">số điện thoại</th>
+                <th width="25%">Địa chỉ</th>
+                <th width="30%">Email</th>
+                <th width="17%"></th>
+            </tr>
+        </thead>
+
+{% if object_list %}
+        <tbody>
+            {% for staff in object_list %}
+                <tr>
+                    <td>
+                        <p> <a href="{% url 'edit-staff' staff.pk %}">{{ staff.name }}</a> </p>
+                    </td>
+                    <td class="align-middle"> {{ staff.phone }} </td>
+                    <td class="align-middle"> {{ staff.email }} </td>
+                    <td class="align-middle"> {{ staff.Address }} </td>
+                    <td class="align-middle">
+                        <div class="align-middle">
+                            <a href="{% url 'edit-staff' staff.pk %}" class="btn btn-info btn-sm">Sửa</a>
+                            <a href="{% url 'delete-staff' staff.pk %}" class="btn btn-danger btn-sm">Xóa</a>
+                        </div>
+                    </td>
+                </td>        
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <div class="align-middle">
+        {% if is_paginated %}
+
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+
+        {% endif %}
+    </div>
+
+{% else %}
+
+        <tbody></tbody>   
+    </table>
+
+    <br><br><br><br><br><br><br><br>
+    <div style="color: #575757; font-style: bold; font-size: 1.5rem; text-align: center;">The records are empty. Please try adding some.</div>
+
+{% endif %}
+
+
+{% endblock content %}

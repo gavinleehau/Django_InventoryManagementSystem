@@ -6,7 +6,8 @@ from .models import (
     PurchaseBillDetails, 
     SaleBill, 
     SaleItem,
-    SaleBillDetails
+    SaleBillDetails,
+    staff
 )
 
 admin.site.register(Supplier)
@@ -16,3 +17,4 @@ admin.site.register(PurchaseBillDetails)
 admin.site.register(SaleBill)
 admin.site.register(SaleItem)
 admin.site.register(SaleBillDetails)
+admin.site.register(staff)

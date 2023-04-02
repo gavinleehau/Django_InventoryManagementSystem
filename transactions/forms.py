@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import formset_factory
-from .models import Supplier, PurchaseBill, PurchaseItem,PurchaseBillDetails, SaleBill, SaleItem, SaleBillDetails
+from .models import Supplier, PurchaseBill, PurchaseItem,PurchaseBillDetails, SaleBill, SaleItem, SaleBillDetails, staff
 from inventory.models import Stock
 
 
@@ -8,7 +8,7 @@ from inventory.models import Stock
 class SelectSupplierForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['supplier'].label = "Nhà cung cấp" # Đổi label_tag của supplier
+        self.fields['supplier'].label = "Nhà cung cấpppppppppp" # Đổi label_tag của supplier
         self.fields['supplier'].queryset = Supplier.objects.filter(is_deleted=False)
         self.fields['supplier'].widget.attrs.update({'class': 'textinput form-control'})
     class Meta:
@@ -98,3 +98,16 @@ class SaleDetailsForm(forms.ModelForm):
     class Meta:
         model = SaleBillDetails
         fields = ['eway','veh', 'destination', 'po', 'cgst', 'sgst', 'igst', 'cess', 'tcs', 'total']
+
+
+# form used for staff
+class StaffForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
+        self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only'})
+        self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['Address'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
+    class Meta:
+        model = staff
+        fields = ['name', 'phone', 'Address', 'email']

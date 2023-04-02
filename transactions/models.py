@@ -118,3 +118,15 @@ class SaleBillDetails(models.Model):
 
     def __str__(self):
         return "Bill no: " + str(self.billno.billno)
+    
+
+# employee manager
+class staff(models.Model):
+    name = models.CharField("Tên nhân viên", default="", max_length=30)
+    phone = models.CharField("Số điện thoại", max_length=20)
+    email = models.EmailField("Email")
+    Address = models.CharField("Địa chỉ", max_length=100)
+    status = models.BooleanField("Trạng thái", default=True)
+
+    def __str__(self):
+        return self.name

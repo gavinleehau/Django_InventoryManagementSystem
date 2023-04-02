@@ -72,6 +72,7 @@
                         <li> <a class="sidebar-text sidebar-subitem sidebar-button" href="{% url 'sales-list' %}"><i class="fas fa-dot-circle"></i> Danh sách đơn hàng</a> </li>
                     </ul>
                 </li>
+
                 <li>
                     <a href="#supplierSubmenu" data-toggle="collapse" class="dropdown-toggle sidebar-text right-arrow sidebar-button"><i class="fas fa-dolly-flatbed"></i> Nhà cung cấp</a>
                     <ul class="collapse list-unstyled" id="supplierSubmenu">
@@ -79,6 +80,16 @@
                         <li> <a class="sidebar-text sidebar-subitem sidebar-button" href="{% url 'suppliers-list' %}"><i class="fas fa-dot-circle"></i> Danh sách nhà cung cấp</a> </li>
                     </ul>
                 </li>
+
+                <li>
+                    <a href="#staffSubmenu" data-toggle="collapse" class="dropdown-toggle sidebar-text right-arrow sidebar-button"><i class="fa-solid fa-user"></i> Nhân viên</a>
+                    <ul class="collapse list-unstyled" id="staffSubmenu">
+                        <li> <a class="sidebar-text sidebar-subitem sidebar-button" href="{% url 'new-staff' %}"><i class="fas fa-dot-circle"></i> Thêm mới</a> </li>
+                        <li> <a class="sidebar-text sidebar-subitem sidebar-button" href="{% url 'staffs-list' %}"><i class="fas fa-dot-circle"></i> Danh sách Nhân viên</a> </li>
+                    </ul>
+                </li>
+
+
 
                 <li class="bottomleft">
                     <a href="#UserSubmenu" data-toggle="collapse" class="dropdown-toggle sidebar-text right-arrow sidebar-button"><i class="fas fa-user-circle"></i> {{ request.user.username }}</a>
