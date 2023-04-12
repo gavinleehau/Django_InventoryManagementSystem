@@ -8,7 +8,7 @@ from inventory.models import Stock
 class SelectSupplierForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['supplier'].label = "Nhà cung cấpppppppppp" # Đổi label_tag của supplier
+        self.fields['supplier'].label = "Nhà cung cấp" # Đổi label_tag của supplier
         self.fields['supplier'].queryset = Supplier.objects.filter(is_deleted=False)
         self.fields['supplier'].widget.attrs.update({'class': 'textinput form-control'})
     class Meta:
@@ -41,10 +41,10 @@ class PurchaseDetailsForm(forms.ModelForm):
 class SupplierForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
-        self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only'})
+        self.fields['name'].widget.attrs.update({'class': 'textinput form-control'})
+        self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}'})
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15', 'pattern' : '[A-Z0-9]{15}', 'title' : 'GSTIN Format Required'})
+        self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15'})
     class Meta:
         model = Supplier
         fields = ['name', 'phone', 'address', 'email', 'gstin']
@@ -62,10 +62,10 @@ class SupplierForm(forms.ModelForm):
 class SaleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only', 'required': 'true'})
+        self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'required': 'true'})
         self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only', 'required': 'true'})
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15', 'pattern' : '[A-Z0-9]{15}', 'title' : 'GSTIN Format Required'})
+        self.fields['gstin'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '15', 'title' : 'GSTIN Format Required'})
     class Meta:
         model = SaleBill
         fields = ['name', 'phone', 'address', 'email', 'gstin']
@@ -104,10 +104,10 @@ class SaleDetailsForm(forms.ModelForm):
 class StaffForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
+        self.fields['name'].widget.attrs.update({'class': 'textinput form-control', 'title' : 'Alphabets and Spaces only'})
         self.fields['phone'].widget.attrs.update({'class': 'textinput form-control', 'maxlength': '10', 'pattern' : '[0-9]{10}', 'title' : 'Numbers only'})
         self.fields['email'].widget.attrs.update({'class': 'textinput form-control'})
-        self.fields['Address'].widget.attrs.update({'class': 'textinput form-control', 'pattern' : '[a-zA-Z\s]{1,50}', 'title' : 'Alphabets and Spaces only'})
+        self.fields['Address'].widget.attrs.update({'class': 'textinput form-control', 'title' : 'Alphabets and Spaces only'})
     class Meta:
         model = staff
         fields = ['name', 'phone', 'Address', 'email']

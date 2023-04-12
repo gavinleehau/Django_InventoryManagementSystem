@@ -2,12 +2,12 @@
 {% load static %}
 {% load humanize %}
 
-{% block title %} Sale Bill No : {{ bill.billno }}{% endblock title %}
+{% block title %} Hóa đơn: #{{ bill.billno }}{% endblock title %}
 
 
 {% block content %}
     
-    <div style="color:#575757; font-style: bold; font-size: 3rem;  border-bottom: 1px solid white;">Sale Bill No : {{ bill.billno }}</div>
+    <div style="color:#575757; font-style: bold; font-size: 3rem;  border-bottom: 1px solid white;">Số hóa đơn : {{ bill.billno }}</div>
 
     <!-- <br><br> -->
 
@@ -29,10 +29,10 @@
                     
                         <tr style="text-align: center;">
                             <td >
-                                <span style="font-size: 350%;">Hau</span> <br>
-                                <span style="font-size: 120%; font-weight: bold;">DEALERS IN : Products</span> <br>
-                                <span style="font-weight: bold;">Địa chỉ </span> 971 Center Street<br>Umatilla, OR 97882<br>
-                                <span style="font-weight: bold;">EMAIL : djangoims@mail.com</span> <br><br>
+                                <span style="font-size: 350%;">ABC</span> <br>
+                                <span style="font-size: 120%; font-weight: bold;">Đơn vị bán: abc</span> <br>
+                                <span style="font-weight: bold;">Địa chỉ </span> Nguyen Van Linh<br>Ninh Kieu, Can Tho<br>
+                                <span style="font-weight: bold;">EMAIL : haule.it.ctu@gmail.com</span> <br><br>
                             </td>
                         </tr>
                     
@@ -41,7 +41,7 @@
                             <table class="outer-box" style="width: 800px; margin-left: auto; margin-right: auto;">
                                 <tbody>
                                     <tr>
-                                        <td class="inner-box" style="text-align: center; font-weight: bold;" colspan="3">MST - 123456789CASTR0</td>
+                                        <td class="inner-box" style="text-align: center; font-weight: bold;" colspan="3">MST - 123456789</td>
                                     </tr>
                                     <tr>
                                         <td class="inner-box" style="width: 50%; font-weight: bold;">&nbsp;TÊN KHÁCH HÀNG</td>
@@ -54,23 +54,8 @@
                                         <td class="inner-box" style="width: 25%;">&nbsp;{{ bill.time.date|date:"d-m-Y" }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="inner-box" style="width: 50%;" rowspan="3">{{ bill.address|linebreaks }}</td>
-                                        <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;EWAY NO</td>
-                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="eway" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.eway %}{{ billdetails.eway }}{% endif %}"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;VEH NO</td>
-                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="veh" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.veh %}{{ billdetails.veh }}{% endif %}"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;DESTINATION</td>
-                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="destination" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.destination %}{{ billdetails.destination }}{% endif %}"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="inner-box" style="font-weight: bold;">&nbsp;MST : {{ bill.gstin }} </td>
-                                        <td class="inner-box" style="width: 25%; font-weight: bold;">&nbsp;PO NO &amp; DATE</td>
-                                        <td class="inner-box align-middle" style="width: 25%;"> <input type="text" name="po" class="align-middle" style="border: 0; overflow: hidden;" value="{% if billdetails.po %}{{ billdetails.po }}{% endif %}"> </td>
-                                    </tr>
+                                        <td class="inner-box" colspan="3">{{ bill.address|linebreaks }}</td>
+                                        
                                 </tbody>
                             </table>
                             </td>
@@ -105,7 +90,7 @@
 
                         <tr>
                             <td style="text-align: right;">
-                                <span style="font-weight: bold;">FOR COMPANY <br><br><br><br> Signature</span>
+                                <span style="font-weight: bold;">TÊN CÔNG TY <br><br><br><br> Chữ ký</span>
                             </td>
                         </tr>
 
@@ -127,9 +112,9 @@
         <br><br>
 
         <div class="wrapper">
-            <button class="center btn btn-primary" onclick="printpage('printArea')">Print</button>
-            <button class="center btn btn-success" type="submit">Save Draft</button>
-            <a href="{% url 'sales-list' %}" class="btn center btn-secondary">Go Back</a>
+            <button class="center btn btn-primary" onclick="printpage('printArea')">In</button>
+            <button class="center btn btn-success" type="submit">Lưu</button>
+            <a href="{% url 'sales-list' %}" class="btn center btn-secondary">Trở lại</a>
         </div>
     
     </form>
