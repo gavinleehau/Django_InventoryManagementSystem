@@ -1,7 +1,6 @@
 {% load static %}
 
 {% load crispy_forms_tags %}
-<!-- Log on to freeprojectscodes.com for more projects -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,8 +24,7 @@
 <body>
 
 <div class="align-middle" style="color: #607d8b; font-style: bold; font-size: 3rem;">Inventory Management System</div>
-<!-- <div class="align-middle" style="color: #494949;">An Inventory Management System</div> -->
-<br><!-- Log on to freeprojectscodes.com for more projects -->
+<br>
 
 <div class="row d-flex justify-content-center">
     <div class="col-md-6">
@@ -45,7 +43,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     <fieldset class="form-group">
-                        <div class="align-middle" style="color:#494949;"><legend class="border-bottom mb-4">Please login to continue...</legend></div>
+                        <div class="align-middle" style="color:#494949;"><legend class="border-bottom mb-4">Đăng nhập để tiếp tục</legend></div>
                         {{ form|crispy }}
                     </fieldset>
                     <div class="form-group">
@@ -60,7 +58,7 @@
 
         {% endif %}
 
-    </div><!-- Log on to freeprojectscodes.com for more projects -->
+    </div>
 </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

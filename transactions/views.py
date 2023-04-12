@@ -31,7 +31,7 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
     model = Supplier
     form_class = SupplierForm
     success_url = '/transactions/suppliers'
-    success_message = "Supplier has been created successfully"
+    success_message = "Thêm mới thành công"
     template_name = "suppliers/edit_supplier.html"
     
     def get_context_data(self, **kwargs):
@@ -46,7 +46,7 @@ class SupplierUpdateView(SuccessMessageMixin, UpdateView):
     model = Supplier
     form_class = SupplierForm
     success_url = '/transactions/suppliers'
-    success_message = "Supplier details has been updated successfully"
+    success_message = "Sửa thành công"
     template_name = "suppliers/edit_supplier.html"
     
     def get_context_data(self, **kwargs):
@@ -266,7 +266,7 @@ class SaleDeleteView(SuccessMessageMixin, DeleteView):
             if stock.is_deleted == False:
                 stock.quantity += item.quantity
                 stock.save()
-        messages.success(self.request, "Sale bill has been deleted successfully")
+        messages.success(self.request, "Thành công")
         return super(SaleDeleteView, self).delete(*args, **kwargs)
 
 
@@ -304,7 +304,7 @@ class PurchaseBillView(View):
             billdetailsobj.total = request.POST.get("total")
 
             billdetailsobj.save()
-            messages.success(request, "Bill details have been modified successfully")
+            messages.success(request, "Thành công")
         context = {
             'bill'          : PurchaseBill.objects.get(billno=billno),
             'items'         : PurchaseItem.objects.filter(billno=billno),
@@ -346,7 +346,7 @@ class SaleBillView(View):
             billdetailsobj.total = request.POST.get("total")
 
             billdetailsobj.save()
-            messages.success(request, "Bill details have been modified successfully")
+            messages.success(request, "Thành công")
         context = {
             'bill'          : SaleBill.objects.get(billno=billno),
             'items'         : SaleItem.objects.filter(billno=billno),
@@ -385,7 +385,7 @@ class StaffUpdateView(SuccessMessageMixin, UpdateView):
     model = staff
     form_class = StaffForm
     success_url = '/transactions/staffs'
-    success_message = "Staff details has been updated successfully"
+    success_message = "Thêm mới thành công"
     template_name = "staff/edit_staff.html"
     
     def get_context_data(self, **kwargs):
@@ -403,5 +403,4 @@ def delete_record(request, pk):
         my_object.delete()
         return redirect('staffs-list')
 
-    # Render the delete confirmation page
     return render(request, "staff/delete_staff.html", {'object' : my_object})
