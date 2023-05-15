@@ -68,26 +68,37 @@ class PurchaseBillDetails(models.Model):
 #contains the sale bills made
 class SaleBill(models.Model):
     billno = models.AutoField(primary_key=True)
-    time = models.DateTimeField(auto_now=True)
-
+    time = models.DateTimeField(auto_now_add=True)
+    time.editable=True
     name = models.CharField(max_length=150)
     phone = models.CharField(max_length=12)
     address = models.CharField(max_length=200)
     email = models.EmailField(max_length=254)
     gstin = models.CharField(max_length=15)
+    totalPrice = models.IntegerField( verbose_name=('Tổng giá'), default=1)
 
     def __str__(self):
         return "Bill no: " + str(self.billno)
 
     def get_items_list(self):
         return SaleItem.objects.filter(billno=self)
-        
+
     def get_total_price(self):
         saleitems = SaleItem.objects.filter(billno=self)
         total = 0
         for item in saleitems:
             total += item.totalprice
         return total
+    
+    
+    
+    # def save(self, *args, **kwargs):
+    #     self.totalPrice = self.get_total_price()
+    #     super(SaleBill, self).save(*args, **kwargs)
+        
+
+
+    
 
 #contains the sale stocks made
 class SaleItem(models.Model):

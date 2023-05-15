@@ -62,10 +62,61 @@
                             <small><i>{{ item.time.time|time:"H:i" }}</i></small>,
                             <small><i>{{ item.time.date|date:"d-m-Y" }}</i></small>
                         </div>
-                        <div class="col-md-3"> <br>{{ item.get_total_price|intcomma }} VND <br> <a href="{% url 'sale-bill' item.billno %}">Chi tiết</a> </div>
+                        <div class="col-md-3"> <br>{{ item.totalPrice|intcomma }} VND <br> <a href="{% url 'sale-bill' item.billno %}">Chi tiết</a> </div>
                     </div>
                 {% endfor %}
             </div>
+
+            <div class="col-12">
+                <h2 class="text-center" style="color:red">Thống kê tháng</h2>
+                <div class="align-items-sm-center ">
+                    <canvas class="" id="myChart" ></canvas>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h2 class="text-center" style="color:red">Thống kê ngày</h2>
+                <div class="align-items-sm-center ">
+                    <canvas class="" id="myChart2" ></canvas>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h2 class="text-center" style="color:red">Thống kê tuần</h2>
+                <div class="align-items-sm-center ">
+                    <canvas class="" id="myChart3" ></canvas>
+                </div>
+            </div>
+
+            <form method="GET" action="">
+                <label for="start_date">Từ ngày: </label>
+                <input type="date" id="start_date" name="start_date">
+
+                <label for="end_date">Đến ngày: </label>
+                <input type="date" id="end_date" name="end_date">
+
+                <button type="submit">Tính tiền</button>
+            </form>
+
+            {% if output_many_days %}
+                <h2>Tính tiền</h2>
+                <table>
+                    <!-- <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead> -->
+                    <tbody>
+                        <tr>
+                            <td>Từ ngày: <span style="color: red;">{{ output_many_days.start_date|date:"d-m-Y" }}</span></td> 
+                            <td>đến ngày: <span style="color: red;">{{ output_many_days.end_date|date:"d-m-Y" }}</span></td>
+                            <td>Tổng tiền: <span style="color: red;">{{ output_many_days.total_amount|intcomma }} VNĐ </span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+
 
             
 
@@ -75,8 +126,96 @@
     <!-- Loading Chart JS -->
     <script src="{% static 'js/Chart.min.js' %}"></script>  
     <script>
-        Chart.defaults.global.defaultFontColor = '#3c3c3c';
 
+        // Thống kê tháng
+        const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [{%for o in output %}'Tháng {{o.month}}',{%endfor%}],
+                datasets: [{
+                label: 'Doanh thu cửa hàng hàng tháng',
+                data: [{%for o in output %} {{ o.total }},{%endfor%}],
+                backgroundColor: [
+                                'rgba(255, 99, 132, 0.8)',
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(255, 206, 86, 0.8)',
+                                'rgba(75, 192, 192, 0.8)',
+                                'rgba(153, 102, 255, 0.8)',
+                                'rgba(255, 159, 64, 0.8)',
+                                'rgba(240, 120, 50, 0.8)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(240, 120, 50, 1)',
+
+                            ],
+                            borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            }
+        });
+
+
+        const ctx2 = document.getElementById('myChart2');
+            new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: [{% for o in output_day %}'Ngày {{o.day}}/{{current_month}}',{%endfor%}],
+                datasets: [{
+                label: 'Doanh thu cửa hàng hàng tháng',
+                    data: [{% for o in output_day %} {{o.total}} ,{% endfor %}],
+                            borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            }
+        });
+
+
+        // Thống kê ngày
+
+        // Thống kê tuần
+        const ctx3 = document.getElementById('myChart3');
+            new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: [{% for o in week_data_list %}'Tuần {{o.week_number}} ({{o.start_of_week|date:"d/m"}} - {{o.end_of_week|date:"d/m/Y"}})',{%endfor%}],
+                    datasets: [{
+                        label: 'Doanh thu cửa hàng tuần ',
+                        data: [{% for o in output_week %} {{ o.total }},{% endfor %}],
+                            borderWidth: 1
+
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+        });
+
+
+
+        Chart.defaults.global.defaultFontColor = '#3c3c3c';
         //configuration for the bar graph
         var barConfig = {
             type: 'bar',
@@ -91,6 +230,11 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
             },
         };
 

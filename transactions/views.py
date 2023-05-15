@@ -38,7 +38,6 @@ class SupplierCreateView(SuccessMessageMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Thêm nhà cung cấp'
         context["savebtn"] = 'Thêm'
-        print('sai')
         return context     
 
 # used to update a supplier's info
@@ -196,12 +195,36 @@ class PurchaseDeleteView(SuccessMessageMixin, DeleteView):
 
 
 # shows the list of bills of all sales 
-class SaleView(ListView):
-    model = SaleBill
-    template_name = "sales/sales_list.html"
-    context_object_name = 'bills'
-    ordering = ['-time']
+def SaleView(request):
+    bills = SaleBill.objects.order_by('-billno')
     paginate_by = 10
+
+    # lấy giá trị get_total_price gán cho totalPrice
+    for sale in bills:
+        sale.totalPrice=sale.get_total_price()
+        sale.save()
+    
+    return render(
+        request=request, 
+        template_name = "sales/sales_list.html", 
+        context={
+            'bills': bills,
+            # 'order': order
+        }
+    )
+
+
+# shows the list of bills of all sales 
+# class SaleView(ListView):
+#     model = SaleBill
+#     template_name = "sales/sales_list.html"
+#     context_object_name = 'bills'
+#     ordering = ['-time']
+#     paginate_by = 10
+    
+
+    
+
 
 # used to generate a bill object and save items
 class SaleCreateView(View):                                                      
@@ -228,6 +251,8 @@ class SaleCreateView(View):
             # create bill details object
             billdetailsobj = SaleBillDetails(billno=billobj)
             billdetailsobj.save()
+
+            
             for form in formset:                                                # for loop to save each individual form as its own object
                 # false saves the item and links bill to the item
                 billitem = form.save(commit=False)
@@ -236,6 +261,9 @@ class SaleCreateView(View):
                 stock = get_object_or_404(Stock, name=billitem.stock.name)      
                 # calculates the total price
                 billitem.totalprice = billitem.perprice * billitem.quantity
+                # billtt = SaleBill()
+                # billtt.totalPrice += billitem.totalprice
+                # billtt.save()
                 # updates quantity in stock db
                 stock.quantity -= billitem.quantity   
                 # saves bill item and stock
@@ -313,7 +341,7 @@ class PurchaseBillView(View):
         return render(request, self.template_name, context)
 
 
-# used to display the sale bill object
+# hóa đơn
 class SaleBillView(View):
     model = SaleBill
     template_name = "bill/sale_bill.html"
@@ -329,10 +357,11 @@ class SaleBillView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, billno):
+        
+        
         form = SaleDetailsForm(request.POST)
         if form.is_valid():
             billdetailsobj = SaleBillDetails.objects.get(billno=billno)
-            
             billdetailsobj.eway = request.POST.get("eway")    
             billdetailsobj.veh = request.POST.get("veh")
             billdetailsobj.destination = request.POST.get("destination")

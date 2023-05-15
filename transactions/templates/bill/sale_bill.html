@@ -70,19 +70,29 @@
                                         <td class="inner-box" style="width: 40%; font-weight: bold; text-align: center;">SẢN PHẨM</td>
                                         <td class="inner-box" style="width: 10%; font-weight: bold; text-align: center;">SỐ LƯỢNG</td>
                                         <td class="inner-box" style="width: 10%; font-weight: bold; text-align: center;">GIÁ/SP</td>
-                                        <td class="inner-box" style="width: 30%; font-weight: bold; text-align: center;">TỔNG TIỀN</td>
+                                        <td class="inner-box" style="width: 10%; font-weight: bold; text-align: center;">TỔNG TIỀN</td>
+                                        {% comment %} <td class="inner-box" style="width: 15%; font-weight: bold; text-align: center;">Thành TIỀN</td> {% endcomment %}
                                     </tr>
                                     {% for item in items %}
                                         <tr style="height: auto;">
                                             <td class="inner-box" style="width: 5%;">&nbsp; {{ forloop.counter }}</td>
                                             <td class="inner-box" style="width: 30%;">&nbsp; {{ item.stock.name }}</td>
                                             <td class="inner-box" style="width: 12%;">&nbsp; {{ item.quantity }}</td>
-                                            <td class="inner-box" style="width: 12%;">&nbsp; {{ item.perprice }}</td>
+                                            <td class="inner-box" style="width: 12%;">&nbsp; {{ item.perprice|intcomma }} VND</td>
                                             <td class="inner-box" style="width: 12%;">&nbsp;{{ item.totalprice|intcomma }} VND</td>
                                         </tr>
                                     {% endfor %}
+                                
+                                    
                                 </tbody>
+                               
                             </table>
+                            {% comment %} {% for i in billdetails %}
+                                <tr>
+                                    <td class="inner-box" style="text-align: center; font-weight: bold;" colspan="3">{{i.total}}</td>
+                                </tr>
+                            {% endfor %} {% endcomment %}
+                            
                             </td>
                         </tr>
                         
@@ -114,7 +124,7 @@
         <div class="wrapper">
             <button class="center btn btn-primary" onclick="printpage('printArea')">In</button>
             <button class="center btn btn-success" type="submit">Lưu</button>
-            <a href="{% url 'sales-list' %}" class="btn center btn-secondary">Trở lại</a>
+            <a href="{% url 'sales-list' %}" class="btn center btn-secondary">Danh sách đơn hàng</a>
         </div>
     
     </form>
